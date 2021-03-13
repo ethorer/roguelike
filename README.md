@@ -1,11 +1,11 @@
 # roguelike
 Use numpad or arrow keys to move
 
-w - wield
-e - eat
-i - inventory
-s - swap wielded items
-d - drop item
-g - pick up item
+w - wield <br>
+e - eat <br>
+i - inventory <br>
+s - swap wielded items <br>
+d - drop item <br>
+g - pick up item <br>
 l - look
 
