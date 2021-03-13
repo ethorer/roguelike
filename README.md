@@ -1,5 +1,5 @@
 # roguelike
-Use numpad or arrow keys to move
+Use numpad or arrow keys to move and the decimal key to wait
 
 w - wield <br>
 e - eat <br>
