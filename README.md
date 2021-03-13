@@ -9,3 +9,4 @@ d - drop item <br>
 g - pick up item <br>
 l - look
 
+> and < to go up or down stairs
