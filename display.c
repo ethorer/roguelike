@@ -89,13 +89,13 @@ void los(int pos, double range, double angle, int *array)
 
     // need to fix this so it works without having different inequalities in each case
     if (angle <= 90.0)
-        dx = 1, dy = -80;
+        dx = 1, dy = TILE_TUNNEL;
     else if (angle <= 180.0)
         angle -= 90.0, dx = 1, dy = 80;
     else if (angle < 270.0)
         angle -= 180.0, dx = -1, dy = 80;
     else if (angle < 360.0)
-        angle -= 270.0, dx = -1, dy = -80;
+        angle -= 270.0, dx = -1, dy = TILE_TUNNEL;
 
     x = 0.5, y = 0.5, dotx = doty = .01;
     d = sqrt(x*x + y*y);
@@ -111,7 +111,7 @@ void los(int pos, double range, double angle, int *array)
         if (is_wall(level_current->map[pathpos])//level_current->map[pathpos] == '#'
             )
             obstacle_wall++;
-        else if (level_current->map[pathpos] == -80)
+        else if (level_current->map[pathpos] == TILE_TUNNEL)
              obstacle_hall++, obstacle_floor = 0;
         else if (level_current->map[pathpos] == ' ')
              obstacle_space++, obstacle_floor = 0;
@@ -138,7 +138,7 @@ void los(int pos, double range, double angle, int *array)
             
             if (
                 obstacle_hall > 0 
-                && level_current->map[pathpos] == -80
+                && level_current->map[pathpos] == TILE_TUNNEL
             )
                 array[pathpos] = 0;
             
@@ -154,7 +154,7 @@ void los(int pos, double range, double angle, int *array)
             is_wall(level_current->map[pathpos])
             || level_current->map[pathpos] == '<'
             || level_current->map[pathpos] == '>'
-            || level_current->map[pathpos] == -80
+            || level_current->map[pathpos] == TILE_TUNNEL
             )
             && array[pathpos] == 1
         )
@@ -195,12 +195,12 @@ int MapOnScreen()
 bool is_wall(char arg) 
 {
     if (
-        arg == -68
-        || arg == -69
-        || arg == -56
-        || arg == -55
-        || arg == -70
-        || arg == -51
+        arg == TILE_CORNER_BR
+        || arg == TILE_CORNER_TR
+        || arg == TILE_CORNER_BL
+        || arg == TILE_CORNER_TL
+        || arg == TILE_WALL_VERT
+        || arg == TILE_WALL_HORIZ
         )
         return true;
     else
@@ -210,10 +210,10 @@ bool is_wall(char arg)
 bool is_corner(char arg) 
 {
     if (
-        arg == -68
-        || arg == -69
-        || arg == -56
-        || arg == -55
+        arg == TILE_CORNER_BR
+        || arg == TILE_CORNER_TR
+        || arg == TILE_CORNER_BL
+        || arg == TILE_CORNER_TL
         )
         return true;
     else

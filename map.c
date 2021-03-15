@@ -16,7 +16,7 @@ typedef struct coords {
 coords* draw_room(int hy, int hx, int ly, int lx, char map[SCREEN_HEIGHT][SCREEN_WIDTH]);
 bool is_end_block(int y, int x, char map[SCREEN_HEIGHT][SCREEN_WIDTH]);
 
-void goBackLevel(level** current)
+void go_back_level(level** current)
 {
     if ((*current)->previous != NULL)
         (*current) = (*current)->previous;
@@ -27,13 +27,13 @@ void goForwardLevel(level** current)
     if ((*current)->next != NULL)
         (*current) = (*current)->next;
     else
-        createNewLevel(current);
+        create_new_level(current);
 }
 
 // puts level in level list and spawns items, enemies, stairs
-void createNewLevel(level** current)
+void create_new_level(level** current)
 {
-    insertLevel(create_map_wrapper(), current);
+    insert_level(create_map_wrapper(), current);
 
     int floortiles[SCREEN_HEIGHT*SCREEN_WIDTH];
 
@@ -57,7 +57,7 @@ void createNewLevel(level** current)
             for (int j = 0; j < random(1, 3); j++) {
                 while (floortiles[r] == player_pos_new)
                     r = random(0, i); 
-                SpawnEntity(
+                spawn_entity(
                     floortiles[r] % SCREEN_WIDTH, 
                     floortiles[r] / SCREEN_WIDTH, 
                     &(enemies[random(0, 7)])
@@ -165,9 +165,9 @@ int create_map(int seed, char map[SCREEN_HEIGHT][SCREEN_WIDTH])
             if (smallest == 100)
                 ;
             else {
-            if (!coord_makepath(centers[room], centers[target], map))
+            if (!coord_make_path(centers[room], centers[target], map))
                 retry = 1;
-            //coord_makepath(centers[room], centers[target]);
+            //coord_make_path(centers[room], centers[target]);
             connected[room][target] = true;
             connected[target][room] = true;
             }
@@ -264,7 +264,7 @@ int coord_dist(coords* a, coords* b)
         + (a->y - b->y)*(a->y - b->y));
 }
 
-int coord_makepath(coords* a, coords* b, char map[SCREEN_HEIGHT][SCREEN_WIDTH])
+int coord_make_path(coords* a, coords* b, char map[SCREEN_HEIGHT][SCREEN_WIDTH])
 {
     int pathy = a->y;
     int pathx = a->x;
@@ -295,13 +295,13 @@ int coord_makepath(coords* a, coords* b, char map[SCREEN_HEIGHT][SCREEN_WIDTH])
 
         retry:
         if (map[pathy][pathx] == ' ')
-            map[pathy][pathx] = -80;
+            map[pathy][pathx] = TILE_TUNNEL;
         else if (map[pathy][pathx] == '.')
             ;
-        else if (map[pathy][pathx] == -51) // horiz.
+        else if (map[pathy][pathx] == TILE_WALL_HORIZ) // horiz.
         {
-            if (map[pathy][pathx+1] == -80
-                || map[pathy][pathx-1] == -80)
+            if (map[pathy][pathx+1] == TILE_TUNNEL
+                || map[pathy][pathx-1] == TILE_TUNNEL)
                 {
                     pathy = pathy_old;
                     pathx = pathx_old;
@@ -324,14 +324,14 @@ int coord_makepath(coords* a, coords* b, char map[SCREEN_HEIGHT][SCREEN_WIDTH])
                     goto retry;
                 }
             else {
-                map[pathy][pathx] = -80;
+                map[pathy][pathx] = TILE_TUNNEL;
                 thresholds[i++] = pathy*SCREEN_WIDTH + pathx;
                 }
         }
-        else if (map[pathy][pathx] == -70) // vert.
+        else if (map[pathy][pathx] == TILE_WALL_VERT) // vert.
         {
-            if (map[pathy+1][pathx] == -80
-                || map[pathy-1][pathx] == -80)
+            if (map[pathy+1][pathx] == TILE_TUNNEL
+                || map[pathy-1][pathx] == TILE_TUNNEL)
                 {
                     pathy = pathy_old;
                     pathx = pathx_old;
@@ -352,15 +352,15 @@ int coord_makepath(coords* a, coords* b, char map[SCREEN_HEIGHT][SCREEN_WIDTH])
                     goto retry;
                 }
             else{
-                map[pathy][pathx] = -80;
+                map[pathy][pathx] = TILE_TUNNEL;
                 thresholds[i++] = pathy*SCREEN_WIDTH + pathx;
                 }
         }            
         else if (
-            (map[pathy][pathx] == -55) //0xFFC9) // top left
-            || (map[pathy][pathx] == -69)//0xFFBB) // top right
-            || (map[pathy][pathx] == -56)//0xFFC8) // btm left
-            || (map[pathy][pathx] == -68)//0xFFBC) // btm right
+            (map[pathy][pathx] == TILE_CORNER_TL) //0xFFC9) // top left
+            || (map[pathy][pathx] == TILE_CORNER_TR)//0xFFBB) // top right
+            || (map[pathy][pathx] == TILE_CORNER_BL)//0xFFC8) // btm left
+            || (map[pathy][pathx] == TILE_CORNER_BR)//0xFFBC) // btm right
             ) 
                 return 0;
         
@@ -377,19 +377,19 @@ int coord_makepath(coords* a, coords* b, char map[SCREEN_HEIGHT][SCREEN_WIDTH])
             if (map[y+1][x] == ' '
                 || is_end_block(y+1, x, map))
                 //if (map[y-1][x] == '.')
-                    map[y][x] = -51;
+                    map[y][x] = TILE_WALL_HORIZ;
             if (map[y-1][x] == ' '
                 || is_end_block(y-1, x, map))
                 //if (map[y+1][x] == '.')
-                    map[y][x] = -51;
+                    map[y][x] = TILE_WALL_HORIZ;
             if (map[y][x+1] == ' '
                 || is_end_block(y, x+1, map))
                 //if (map[y][x-1] == '.')
-                    map[y][x] = -70;
+                    map[y][x] = TILE_WALL_VERT;
             if (map[y][x-1] == ' '
                 || is_end_block(y, x-1, map))
                 //if (map[y][x+1] == '.')
-                    map[y][x] = -70;
+                    map[y][x] = TILE_WALL_VERT;
         }
 
     return 1;

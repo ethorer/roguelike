@@ -126,7 +126,7 @@ void PlayerMovement(int key_press_new, int* position)
         *position += x;
 
     if (level_current->map[player_pos_new] != '.'
-        && level_current->map[player_pos_new] != -80) 
+        && level_current->map[player_pos_new] != TILE_TUNNEL) 
         if (level_current->map[player_pos_new] != '>'
         && level_current->map[player_pos_new] != '<') // keeps you from walking into walls or enemies
             player_pos_new = player_pos_old;

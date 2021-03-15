@@ -59,7 +59,7 @@ int main()
     wielded_items[1] = NULL;
     wielded_items[2] = NULL;
 
-    createNewLevel(&level_current);
+    create_new_level(&level_current);
 
     //Initialize player trail to starting position
     for (int i = 0; i < TL_CAP; ++i)
@@ -103,7 +103,7 @@ int main()
                     }
             else if (GetAsyncKeyState(0xBC) 
                     && level_current->map[player_pos_new] == '<') {
-                goBackLevel(&level_current);
+                go_back_level(&level_current);
                 for (int i = 0; i < TL_CAP; i++) 
                     trail[i] = 0, tltime[i] = 0;
 			}
@@ -148,7 +148,7 @@ int main()
         while (current_entity) {
             if (player_pos_new == current_entity->Pold 
                 && current_entity->HP > 0)
-                meleeAttack(current_entity), player_pos_new = player_pos_old;
+                melee_attack(current_entity), player_pos_new = player_pos_old;
             current_entity = current_entity->next;
         }
         current_entity = level_current->entity_liststart;
@@ -207,12 +207,12 @@ int main()
         // for (int i = 0; i < TL_CAP; i++)
         //     map[trail[i]] = tltime[i] + '0'; // makes pathfinding trail visible
 
-        //if (level_current->map[player_pos_new] == -80)
+        //if (level_current->map[player_pos_new] == TILE_TUNNEL)
             for (int x = -1; x <= 1; x++)   // 1-tile vision
                 for (int y = -1; y <= 1; y++) {
                     int pos = player_pos_new + SCREEN_WIDTH * y + x;
-                    if (level_current->map[pos] == -80) {
-                        map[pos] = -79; // lighter hall tiles
+                    if (level_current->map[pos] == TILE_TUNNEL) {
+                        map[pos] = -79; // lighter tunnel tile
                         vision[pos] = 1;
                         level_current->seen[pos] = 1;
                     }
@@ -248,7 +248,7 @@ int main()
         WriteConsoleOutputAttribute(hConsole, &colors_arr, 
             SCREEN_HEIGHT*SCREEN_WIDTH - 1, coordstart, &lpNumberOfAttrsWritten);
 
-        map[player_pos_new] = '@';
+        map[player_pos_new] = TILE_WALL_HORIZ;
 
         for (int i = 0; i < SCREEN_HEIGHT * SCREEN_WIDTH - 1; ++i){
             screen[i] = ' ';

@@ -23,13 +23,13 @@ void epos(entity* enemy)
 
     //Pathfinding
     if (newturn && (enemy->HP > 0)){     /* if new turn and enemy is not dead.. */
-        makepath(enemy->path, enemy->Pold, player_pos_new);       /* make path from the enemy to the player */
+        make_path(enemy->path, enemy->Pold, player_pos_new);       /* make path from the enemy to the player */
         // if (obs(enemy->path) == 0)                              /* if enemy can see the player, make player position lastseen */
         //     enemy->lastseen = player_pos_new;
         if (obs(enemy->path) > 0) {                              /* if the path is obstructed.. */
             for (int i = 0; i < TL_CAP; ++i){
                 int smallest = 100;
-                makepath(enemy->path, enemy->Pold, trail[i]);       /* make path to each trail time element, and save the index */
+                make_path(enemy->path, enemy->Pold, trail[i]);       /* make path to each trail time element, and save the index */
                 if ((obs(enemy->path) == 0) && (tltime[i] <= smallest)){            /* of the most recent one in line of sight */
                     smallest = tltime[i];
                     go = i;
@@ -37,22 +37,22 @@ void epos(entity* enemy)
                 }
                 //screen[1] = '0' + go;
             }
-            makepath(enemy->path, enemy->Pold, trail[go]);      /* make path to the trail element whose index we just saved */
+            make_path(enemy->path, enemy->Pold, trail[go]);      /* make path to the trail element whose index we just saved */
             // if (obs(enemy->path) == 0)                          /* if enemy can see it, save it as lastseen */
             //     enemy->lastseen = trail[go];
             // if (obs(enemy->path) > 0)                           /* if enemy can't see it, make path to lastseen */
-            //     makepath(enemy->path, enemy->Pold, enemy->lastseen);
+            //     make_path(enemy->path, enemy->Pold, enemy->lastseen);
         }
 
         if (obs(enemy->path) == 0 && enemy->wait >= enemy->speed)    /* if it's time for the enemy to move, move it forward on the path we just made */
             enemy->P = enemy->path[0];
         if (obs(enemy->path) > 0 && enemy->idle > 8){                /* if the path is still obstructed and it's time for idle movement, do idle movement */
-            enemy->P = randpos(enemy->P);
+            enemy->P = rand_pos(enemy->P);
             enemy->idle = 0;                                         /* reset idle timer to zero if it just made an idle movement */
         }
             if (
                 level_current->map[enemy->P] != '.' 
-                && level_current->map[enemy->P] != -80 
+                && level_current->map[enemy->P] != TILE_TUNNEL 
                 && level_current->map[enemy->P] != -79
                 && level_current->map[enemy->P] != '>'
                 && level_current->map[enemy->P] != '<'
@@ -85,7 +85,7 @@ void epos(entity* enemy)
 }
 
 // Makes a path from one position (pos) to the other (target)
-void makepath(int array[], int pos, int target)
+void make_path(int array[], int pos, int target)
 {
     int Y = pos / SCREEN_WIDTH;
     int X = pos % SCREEN_WIDTH;
@@ -141,19 +141,19 @@ int dist(int pos1, int pos2)
 }
 
 // Finds a random position for wandering behavior
-int randpos(int pos)
+int rand_pos(int pos)
 {
     int X = pos % SCREEN_WIDTH;
     int Y = pos / SCREEN_WIDTH;
 
-    int n = rangerand(0, 2);
+    int n = range_rand(0, 2);
 
     if (n == 0)         /* and if n == 2 X will not change*/
         X++;
     else if (n == 1)
         X--;
 
-    n = rangerand(0, 2);
+    n = range_rand(0, 2);
 
     if (n == 0)
         Y++;
@@ -164,7 +164,7 @@ int randpos(int pos)
 }
 
 // Used to find random numbers within a range (replaced this with macro)
-int rangerand(int lower, int upper)
+int range_rand(int lower, int upper)
 {
     int num = (rand() % (upper - lower + 1)) + lower;
     return num;

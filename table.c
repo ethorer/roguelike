@@ -34,7 +34,7 @@ void spawn_item(int pos, item_listnode* item)
 
 }
 
-void insertLevel(char* map, level** current)
+void insert_level(char* map, level** current)
 {
     //level* current = level_current;
     
@@ -162,7 +162,7 @@ void delete_item(item_listnode** item, int item_ID)
 }
 
 // spawns a unique entity given stats
-void SpawnEntity(int X, int Y, entity_stats* stats)
+void spawn_entity(int X, int Y, entity_stats* stats)
 {
     entity* temp = (entity*) calloc(1, sizeof(entity));
 

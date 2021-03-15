@@ -151,7 +151,7 @@ item_listnode* select_item_from_menu(int hold, item_listnode* start)
 }
 
 // not used
-void createmenu(int pos, char* text)
+void create_menu(int pos, char* text)
 {
     int i, j, X, Y;
 
@@ -245,7 +245,7 @@ void str_squash(char* str, int width, int keep_whole_words)
 }
 
 // shows inventory items with a header
-char* invUpdate(int arg, char* header)
+char* inv_update(int arg, char* header)
 {
     static char* text = NULL;
     if (text != NULL)
@@ -292,7 +292,7 @@ char* invUpdate(int arg, char* header)
 }
 
 // gets items at map position
-char* GetPositionNames(int pos)
+char* get_position_names(int pos)
 {
     item_listnode* current_item = NULL;
     tile_listnode* current_tile = level_current->tile_liststart;
@@ -396,25 +396,25 @@ void hud_update(int arg)
             return;
         break;
     case 2 : 
-        strcpy(str, invUpdate(0, "What would you like to drop?\n\n"));
+        strcpy(str, inv_update(0, "What would you like to drop?\n\n"));
         break;
     case 3 : 
-        strcpy(str, invUpdate(0, "Inventory:\n\n"));
+        strcpy(str, inv_update(0, "Inventory:\n\n"));
         break;
     case 4 : // looking around
         0;
-        char* items_look = GetPositionNames(cursor_pos + map_pos);
+        char* items_look = get_position_names(cursor_pos + map_pos);
         if (items_look != NULL)
             strcpy(str, items_look);
         break;
     case 5 :
-        strcpy(str, invUpdate(0, "What would you like to use/consume?\n\n"));
+        strcpy(str, inv_update(0, "What would you like to use/consume?\n\n"));
         break;
     case 6 :
-        strcpy(str, invUpdate(1, "Which spell would you like to cast?\n\n"));
+        strcpy(str, inv_update(1, "Which spell would you like to cast?\n\n"));
         break;
     case 7 :
-        strcpy(str, invUpdate(0, "What would you like to wield?\n\n"));
+        strcpy(str, inv_update(0, "What would you like to wield?\n\n"));
         break;
     }
 
@@ -439,14 +439,14 @@ void cursor_posFun(int offset)
 // attacks entity at a position
 void AttackPosition(int pos)
 {
-    entity* entity = EntityAtPosition(pos);
+    entity* entity = entity_at_position(pos);
 
     if (entity != NULL)
         entity->HP--, create_announcement(1, entity->stats->name, 1);
 }
 
 // returns entity at position
-entity* EntityAtPosition(int pos)
+entity* entity_at_position(int pos)
 {
     entity* current_entity = level_current->entity_liststart;
 

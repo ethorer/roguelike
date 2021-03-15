@@ -5,7 +5,7 @@ void (*queued_effect)();
 
 // this file will be for spells/effects
 
-void meleeAttack(entity* target)
+void melee_attack(entity* target)
 {
     int atk = (player.atk + random(0, 3)) - target->stats->def;
     target->HP -= atk;
