@@ -1,7 +1,9 @@
+/*
+    Everything to do with the announcements at the bottom of the screen. 
+*/
+
 #include "game.h"
 
-//extern announcement announcements[10];
-//extern announcement announcement_buffer[3];
 extern char screen_menu[SCREEN_HEIGHT * SCREEN_WIDTH - 1]; 
 
 announcement* ann_liststart;
