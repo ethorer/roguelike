@@ -1,5 +1,5 @@
 /*
-    Everything about enemy behavior
+    All enemy behavior is controlled by these functions
 */
 
 #include "game.h"
