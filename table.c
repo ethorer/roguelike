@@ -1,3 +1,8 @@
+/*
+    List nodes for the various linked lists in the game, and some
+    functions for manipulating them
+*/
+
 #include "game.h"
 
 extern level* level_current;
