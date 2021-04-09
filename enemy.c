@@ -1,3 +1,7 @@
+/*
+    Everything about enemy behavior
+*/
+
 #include "game.h"
 
 extern int newturn;
@@ -7,7 +11,6 @@ extern entity_stats player;
 extern level* level_current;
 extern char* screen;
 
-// enemy behavior
 void epos(entity* enemy)
 {
     int go = 0;
