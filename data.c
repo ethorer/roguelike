@@ -1,3 +1,7 @@
+/*
+    Data for items and enemies.
+*/
+
 #include "game.h"
 
 //spd, hp, atk, def
