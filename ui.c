@@ -1,3 +1,8 @@
+/*
+    For putting menus and other stuff the player needs to 
+    see on the screen.
+*/
+
 #include "game.h"
 
 extern int player_pos_old, player_pos_new;
