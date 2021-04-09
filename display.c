@@ -1,3 +1,8 @@
+/*
+    Coloring the screen, line of sight, and 
+    player perspective
+*/
+
 #include "game.h"
 
 extern int player_pos_old, player_pos_new;
