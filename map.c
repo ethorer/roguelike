@@ -1,3 +1,7 @@
+/*
+    Procedural map generation
+*/
+
 #include "game.h"
 
 extern int player_pos_new, player_pos_old;
