@@ -248,7 +248,7 @@ int main()
         WriteConsoleOutputAttribute(hConsole, &colors_arr, 
             SCREEN_HEIGHT*SCREEN_WIDTH - 1, coordstart, &lpNumberOfAttrsWritten);
 
-        map[player_pos_new] = TILE_WALL_HORIZ;
+        map[player_pos_new] = '@';
 
         for (int i = 0; i < SCREEN_HEIGHT * SCREEN_WIDTH - 1; ++i){
             screen[i] = ' ';
