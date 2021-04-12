@@ -2,7 +2,7 @@
     Player input
 */
 
-include "game.h"
+#include "game.h"
 
 extern int player_pos_new;
 extern int key_hold;
